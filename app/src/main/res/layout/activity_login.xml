@@ -62,7 +62,8 @@
                 android:hint="@string/username_hint"
                 android:inputType="text"
                 android:padding="8dp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:maxLength="20"/>
 
             <EditText
                 android:id="@+id/password"

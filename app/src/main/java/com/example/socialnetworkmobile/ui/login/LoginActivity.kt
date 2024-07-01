@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import com.example.socialnetworkmobile.MainActivity
 import com.example.socialnetworkmobile.ui.registration.RegistrationActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.math.log
 
 class LoginActivity : AppCompatActivity(){
 

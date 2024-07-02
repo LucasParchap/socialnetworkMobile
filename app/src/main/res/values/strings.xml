@@ -1,6 +1,28 @@
 <resources>
+    <!-- Navigation bar -->
     <string name="app_name">SocialNetworkMobile</string>
     <string name="title_home">Home</string>
     <string name="title_conversations">Conversations</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_settings">Settings</string>
+
+    <!-- Registration | Login layout -->
+    <string name="login_text">Login</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_button_description">Log in to access your account</string>
+    <string name="register_link_text">Don\'t have an account? Register here.</string>
+    <string name="logo_description">S</string>
+    <string name="registration_text">Registration</string>
+    <string name="email_hint">Email</string>
+    <string name="password_confirmation_hint">Password Confirmation</string>
+    <string name="register_button">Register</string>
+    <string name="login_link_text">Already have an account? Login here.</string>
+
+    <!-- Drawer -->
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="drawer_username">Unknown</string>
+    <string name="drawer_email">unknown@unknown.com</string>
 </resources>

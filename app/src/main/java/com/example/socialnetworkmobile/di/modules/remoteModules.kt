@@ -2,6 +2,7 @@ package com.example.socialnetworkmobile.di.modules
 
 import com.example.socialnetworkmobile.network.AuthInterceptor
 import com.example.socialnetworkmobile.service.AuthService
+import com.example.socialnetworkmobile.service.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -29,5 +30,8 @@ internal val networkModule = module {
 
     single {
         get<Retrofit>().create(AuthService::class.java)
+    }
+    single<UserService> {
+        get<Retrofit>().create(UserService::class.java)
     }
 }

@@ -1,6 +1,5 @@
 package com.example.socialnetworkmobile.ui.registration
 
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.socialnetworkmobile.model.authentification.RegisterRequest

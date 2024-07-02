@@ -3,7 +3,6 @@ package com.example.socialnetworkmobile.ui.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.socialnetworkmobile.databinding.ActivityLoginBinding
@@ -11,7 +10,6 @@ import androidx.lifecycle.Observer
 import com.example.socialnetworkmobile.MainActivity
 import com.example.socialnetworkmobile.ui.registration.RegistrationActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.math.log
 
 class LoginActivity : AppCompatActivity(){
 
@@ -34,7 +32,7 @@ class LoginActivity : AppCompatActivity(){
                 loginViewModel.login(username, password).observe(this, Observer { result ->
                     result.onSuccess { jwt ->
                         jwt.let {
-                            saveToken(it.toString())
+                            saveUserInfo(username, it.toString())
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -58,10 +56,12 @@ class LoginActivity : AppCompatActivity(){
         }
         return true
     }
-    private fun saveToken(token: String) {
-        val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString("jwt_token", token).apply()
-        Log.d("LoginActivity", "Token saved: $token")
+    private fun saveUserInfo(username: String, token: String) {
+        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("username", username)
+        editor.putString("jwt_token", token)
+        editor.apply()
     }
 
     private fun setupRegisterLinkAction() {

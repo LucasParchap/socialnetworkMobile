@@ -9,7 +9,7 @@ import okhttp3.Response
 
 
 class AuthInterceptor(private val context: Context) : Interceptor {
-    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    private val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val token = sharedPreferences.getString("jwt_token", null)

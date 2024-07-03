@@ -2,6 +2,7 @@ package com.example.socialnetworkmobile.di.modules
 
 import com.example.socialnetworkmobile.MainActivityViewModel
 import com.example.socialnetworkmobile.ui.conversations.ConversationsViewModel
+import com.example.socialnetworkmobile.ui.friends.FriendsViewModel
 import com.example.socialnetworkmobile.ui.home.HomeViewModel
 import com.example.socialnetworkmobile.ui.login.LoginViewModel
 import com.example.socialnetworkmobile.ui.logout.LogoutViewModel
@@ -20,4 +21,5 @@ val ViewModels = module {
     viewModel{ SettingsViewModel() }
     viewModel{ LogoutViewModel() }
     viewModel{ MainActivityViewModel( get() ) }
+    viewModel { FriendsViewModel( get() )}
 }

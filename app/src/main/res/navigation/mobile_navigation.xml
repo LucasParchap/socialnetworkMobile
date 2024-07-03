@@ -27,9 +27,14 @@
         android:name="com.example.socialnetworkmobile.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/nav_friends"
+        android:name="com.example.socialnetworkmobile.ui.friends.FriendsFragment"
+        android:label="@string/title_friends"
+        tools:layout="@layout/fragment_friends" />
     <dialog
         android:id="@+id/nav_logout"
         android:name="com.example.socialnetworkmobile.ui.logout.LogoutDialogFragment"
-        android:label="Logout"
+        android:label="@string/title_logout"
         tools:layout="@layout/fragment_logout_dialog" />
 </navigation>

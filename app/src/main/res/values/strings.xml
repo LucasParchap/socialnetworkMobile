@@ -25,4 +25,14 @@
     <string name="close_nav">Close Navigation Drawer</string>
     <string name="drawer_username">Unknown</string>
     <string name="drawer_email">unknown@unknown.com</string>
+
+    <!-- Friends -->
+    <string name="title_friends">Friends</string>
+    <string name="add_friend">Add a friend</string>
+    <string name="friends_list">Friends List</string>
+    <string name="search_friends">Search Friends</string>
+
+    <!-- Logout -->
+    <string name="title_logout">Logout</string>
+
 </resources>

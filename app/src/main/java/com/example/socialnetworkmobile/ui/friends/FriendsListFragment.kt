@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialnetworkmobile.R
-import com.example.socialnetworkmobile.model.User
+import com.example.socialnetworkmobile.service.FriendsService
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FriendsListFragment : Fragment() {
@@ -19,6 +20,7 @@ class FriendsListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var friendsAdapter: FriendsAdapter
     private val friendsViewModel: FriendsViewModel by viewModel()
+    private val friendsService: FriendsService by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +35,7 @@ class FriendsListFragment : Fragment() {
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.recycler_view)
 
-        friendsAdapter = FriendsAdapter(mutableListOf())
+        friendsAdapter = FriendsAdapter(requireContext(), mutableListOf(), friendsService)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = friendsAdapter
 
@@ -44,7 +46,7 @@ class FriendsListFragment : Fragment() {
         }
 
         friendsViewModel.friendsList.observe(viewLifecycleOwner, { friends ->
-            friendsAdapter.updateList(friends.map { User(it.id, it.friend.username, it.friend.email, it.friend.password, it.friend.roles) }.toMutableList())
+            friendsAdapter.updateList(friends.toMutableList())
         })
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

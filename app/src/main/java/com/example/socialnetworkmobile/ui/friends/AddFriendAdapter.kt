@@ -1,6 +1,7 @@
 package com.example.socialnetworkmobile.ui.friends
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.socialnetworkmobile.R
 import com.example.socialnetworkmobile.model.friends.FriendDTO
 import com.example.socialnetworkmobile.model.friends.AddFriendRequest
+import com.example.socialnetworkmobile.model.friends.RemoveFriendRequest
 import com.example.socialnetworkmobile.service.FriendsService
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,16 +31,107 @@ class AddFriendAdapter(
         private val usernameTextView: TextView = itemView.findViewById(R.id.friend_username)
         private val emailTextView: TextView = itemView.findViewById(R.id.friend_email)
         private val addIcon: ImageView = itemView.findViewById(R.id.add_icon)
+        private val crossIcon: ImageView = itemView.findViewById(R.id.delete_icon)
 
         fun bind(user: FriendDTO) {
             usernameTextView.text = user.username
             emailTextView.text = user.email
+            checkFriendStatus(user, addIcon, crossIcon, adapterPosition)
+        }
 
-            addIcon.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    addFriend(user.id, position)
+        private fun checkFriendStatus(user: FriendDTO, addIcon: ImageView, crossIcon: ImageView, position: Int) {
+            friendService.areBothFriends(userId, user.id).enqueue(object : Callback<Boolean> {
+                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                    if (response.isSuccessful && response.body() == true) {
+                        removeItem(position)
+                    } else {
+                        checkIfUserAddedFriend(user, addIcon, crossIcon)
+                    }
                 }
+
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                    Log.e("AddFriendAdapter", "Error checking if both are friends", t)
+                }
+            })
+        }
+
+        private fun checkIfUserAddedFriend(user: FriendDTO, addIcon: ImageView, crossIcon: ImageView) {
+            friendService.hasUserAddedFriend(userId, user.id).enqueue(object : Callback<Boolean> {
+                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                    if (response.isSuccessful && response.body() == true) {
+                        addIcon.setImageResource(R.drawable.baseline_hourglass_empty_24)
+                        addIcon.isClickable = false
+                        crossIcon.visibility = View.VISIBLE
+                        crossIcon.setOnClickListener {
+                            removeFriend(user, addIcon, crossIcon)
+                        }
+                    } else {
+                        addIcon.setImageResource(R.drawable.baseline_person_add_24)
+                        addIcon.isClickable = true
+                        crossIcon.visibility = View.GONE
+                        addIcon.setOnClickListener {
+                            val position = adapterPosition
+                            if (position != RecyclerView.NO_POSITION) {
+                                addFriend(user, position)
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                    Log.e("AddFriendAdapter", "Error checking if user added friend", t)
+                }
+            })
+        }
+
+        private fun addFriend(friend: FriendDTO, position: Int) {
+            val request = AddFriendRequest(userId, friend.id)
+            friendService.addFriend(request).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        checkFriendStatus(friend, addIcon, crossIcon, position)
+                    } else {
+                        // Handle the error
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    // Handle the error
+                }
+            })
+        }
+
+        private fun removeFriend(friend: FriendDTO, addIcon: ImageView, crossIcon: ImageView) {
+            val request = RemoveFriendRequest(userId, friend.id)
+            friendService.removeFriend(request).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        addIcon.setImageResource(R.drawable.baseline_person_add_24)
+                        addIcon.isClickable = true
+                        crossIcon.visibility = View.GONE
+                        addIcon.setOnClickListener {
+                            val position = adapterPosition
+                            if (position != RecyclerView.NO_POSITION) {
+                                addFriend(friend, position)
+                            }
+                        }
+                    } else {
+                        // Handle the error
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    // Handle the error
+                }
+            })
+        }
+
+        private fun removeItem(position: Int) {
+            if (position != RecyclerView.NO_POSITION) {
+                val userToRemove = filteredList[position]
+                filteredList.removeAt(position)
+                notifyItemRemoved(position)
+                userList.remove(userToRemove)
             }
         }
     }
@@ -63,30 +156,6 @@ class AddFriendAdapter(
             userList.filter { it.username.contains(query, ignoreCase = true) }.toMutableList()
         }
         notifyDataSetChanged()
-    }
-
-    private fun addFriend(friendId: Long, position: Int) {
-        val request = AddFriendRequest(userId, friendId)
-        friendService.addFriend(request).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    removeItem(position)
-                } else {
-                    // Handle the error
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                // Handle the error
-            }
-        })
-    }
-
-    private fun removeItem(position: Int) {
-        val userToRemove = filteredList[position]
-        filteredList.removeAt(position)
-        notifyItemRemoved(position)
-        userList.remove(userToRemove)
     }
 
     fun updateList(newUserList: MutableList<FriendDTO>) {

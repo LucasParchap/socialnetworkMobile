@@ -23,4 +23,9 @@ interface FriendsService {
     @POST("/api/friends/add")
     fun addFriend(@Body request: AddFriendRequest): Call<Void>
 
+    @GET("/api/friend-relation/has-user-added-friend")
+    fun hasUserAddedFriend(@Query("userId") userId: Long, @Query("friendId") friendId: Long): Call<Boolean>
+
+    @GET("/api/friend-relation/are-both-friends")
+    fun areBothFriends(@Query("userId") userId: Long, @Query("friendId") friendId: Long): Call<Boolean>
 }

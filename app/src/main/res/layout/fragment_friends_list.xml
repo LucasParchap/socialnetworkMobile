@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.friends.AddFriendFragment">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_view_add_friend"
+        android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:queryHint="@string/search_friends" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_add_friend"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
-        android:clipToPadding="false" />
+        android:padding="8dp" />
 </LinearLayout>

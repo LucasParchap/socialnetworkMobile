@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialnetworkmobile.R
 import com.example.socialnetworkmobile.service.FriendsService
+import com.example.socialnetworkmobile.service.NotificationsService
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,6 +22,7 @@ class AddFriendFragment : Fragment() {
     private lateinit var addFriendAdapter: AddFriendAdapter
     private val friendsViewModel: FriendsViewModel by viewModel()
     private val friendsService: FriendsService by inject()
+    private val notificationsService: NotificationsService by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +37,7 @@ class AddFriendFragment : Fragment() {
         searchView = view.findViewById(R.id.search_view_add_friend)
         recyclerView = view.findViewById(R.id.recycler_view_add_friend)
 
-        addFriendAdapter = AddFriendAdapter(requireContext(), mutableListOf(), friendsService)
+        addFriendAdapter = AddFriendAdapter(requireContext(), mutableListOf(), friendsService, notificationsService)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = addFriendAdapter
 

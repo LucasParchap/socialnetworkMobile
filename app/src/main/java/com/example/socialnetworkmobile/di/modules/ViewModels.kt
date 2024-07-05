@@ -17,7 +17,7 @@ val ViewModels = module {
     viewModel { RegistrationViewModel(get()) }
     viewModel{ HomeViewModel() }
     viewModel{ ConversationsViewModel() }
-    viewModel{ NotificationsViewModel() }
+    viewModel{ NotificationsViewModel( get() ) }
     viewModel{ SettingsViewModel() }
     viewModel{ LogoutViewModel() }
     viewModel{ MainActivityViewModel( get() ) }

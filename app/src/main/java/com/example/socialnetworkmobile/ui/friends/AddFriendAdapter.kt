@@ -12,7 +12,9 @@ import com.example.socialnetworkmobile.R
 import com.example.socialnetworkmobile.model.friends.FriendDTO
 import com.example.socialnetworkmobile.model.friends.AddFriendRequest
 import com.example.socialnetworkmobile.model.friends.RemoveFriendRequest
+import com.example.socialnetworkmobile.model.notifications.NotificationRequest
 import com.example.socialnetworkmobile.service.FriendsService
+import com.example.socialnetworkmobile.service.NotificationsService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,7 +22,8 @@ import retrofit2.Response
 class AddFriendAdapter(
     private val context: Context,
     private var userList: MutableList<FriendDTO>,
-    private val friendService: FriendsService
+    private val friendService: FriendsService,
+    private val notificationsService: NotificationsService
 ) : RecyclerView.Adapter<AddFriendAdapter.UserViewHolder>() {
 
     private var filteredList: MutableList<FriendDTO> = userList.toMutableList()
@@ -89,14 +92,35 @@ class AddFriendAdapter(
             friendService.addFriend(request).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
+                        sendAddFriendNotification(friend.id, itemView.context)
                         checkFriendStatus(friend, addIcon, crossIcon, position)
                     } else {
-                        // Handle the error
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    // Handle the error
+                    // Gérer l'erreur
+                }
+            })
+        }
+        private fun sendAddFriendNotification(friendId: Long, context: Context) {
+            val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            val userId = sharedPreferences.getLong("user_id", -1)
+            val username = sharedPreferences.getString("username", "Quelqu'un")
+
+            val message = "$username veut vous ajouter en ami."
+            val notificationRequest = NotificationRequest("add-friend",message, userId)
+
+            // Envoyer la notification
+            notificationsService.createNotification(friendId, notificationRequest).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (!response.isSuccessful) {
+                        Log.e("AddFriendAdapter", "Erreur lors de l'envoi de la notification d'ajout d'ami")
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.e("AddFriendAdapter", "Erreur lors de l'envoi de la notification d'ajout d'ami", t)
                 }
             })
         }

@@ -99,6 +99,9 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+
+
         val headerView = drawerNavView.getHeaderView(0)
         val imageView = headerView.findViewById<ImageView>(R.id.imageView)
 
@@ -145,6 +148,7 @@ class MainActivity : AppCompatActivity() {
         editor.putString("email", user.email)
         editor.apply()
     }
+
     private fun logAllSharedPreferences(context: Context) {
         val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val allEntries: Map<String, *> = sharedPreferences.all

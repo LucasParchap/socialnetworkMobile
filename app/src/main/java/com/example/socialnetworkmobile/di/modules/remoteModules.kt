@@ -3,6 +3,7 @@ package com.example.socialnetworkmobile.di.modules
 import com.example.socialnetworkmobile.network.AuthInterceptor
 import com.example.socialnetworkmobile.service.AuthService
 import com.example.socialnetworkmobile.service.FriendsService
+import com.example.socialnetworkmobile.service.NotificationsService
 import com.example.socialnetworkmobile.service.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,5 +38,8 @@ internal val networkModule = module {
     }
     single {
         get<Retrofit>().create(FriendsService::class.java)
+    }
+    single<NotificationsService> {
+        get<Retrofit>().create(NotificationsService::class.java)
     }
 }

@@ -35,7 +35,8 @@ class FriendsFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.friends_list)
-                1 -> tab.text = getString(R.string.add_friend)
+                1 -> tab.text = getString(R.string.pending_requests_list)
+                2 -> tab.text = getString(R.string.add_friend)
             }
         }.attach()
     }

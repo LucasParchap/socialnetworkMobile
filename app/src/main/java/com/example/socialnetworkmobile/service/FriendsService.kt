@@ -28,4 +28,7 @@ interface FriendsService {
 
     @GET("/api/friend-relation/are-both-friends")
     fun areBothFriends(@Query("userId") userId: Long, @Query("friendId") friendId: Long): Call<Boolean>
+
+    @GET("/api/friends/pending-requests")
+    fun getPendingFriendRequests(@Query("userId") userId: Long): Call<List<FriendDTO>>
 }

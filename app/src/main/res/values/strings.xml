@@ -25,13 +25,15 @@
     <string name="close_nav">Close Navigation Drawer</string>
     <string name="drawer_username">Unknown</string>
     <string name="drawer_email">unknown@unknown.com</string>
-
+    <string name="friends_count">%d Friends</string>
+    <string name="pending_request_count">%d Abonnements</string>
     <!-- Friends -->
     <string name="title_friends">Friends</string>
     <string name="add_friend">Add a friend</string>
     <string name="friends_list">Friends List</string>
     <string name="search_friends">Search Friends</string>
-
+    <string name="pending_requests_list">Pending Requests</string>
+    <string name="subscribers_list">Liste des abonnements</string>
     <!-- Logout -->
     <string name="title_logout">Logout</string>
 

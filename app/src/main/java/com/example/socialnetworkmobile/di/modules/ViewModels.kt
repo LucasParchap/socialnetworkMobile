@@ -20,6 +20,6 @@ val ViewModels = module {
     viewModel{ NotificationsViewModel( get() ) }
     viewModel{ SettingsViewModel() }
     viewModel{ LogoutViewModel() }
-    viewModel{ MainActivityViewModel( get() ) }
+    viewModel{ MainActivityViewModel( get(), get() ) }
     viewModel { FriendsViewModel( get() )}
 }

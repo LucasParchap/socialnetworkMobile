@@ -117,6 +117,8 @@ class MainActivity : AppCompatActivity() {
         mainActivityViewModel.userId.observe(this, Observer { userId ->
             userId?.let {
                 mainActivityViewModel.getUserDetails(it)
+                mainActivityViewModel.getFriendCount(it)
+                mainActivityViewModel.getSubscriptionCount(it)
             }
         })
 
@@ -126,7 +128,14 @@ class MainActivity : AppCompatActivity() {
                 saveUserDetailsToPreferences(it)
             }
         })
-
+        mainActivityViewModel.friendCount.observe(this, Observer { count ->
+            val friendsCountTextView = headerView.findViewById<TextView>(R.id.friends_count)
+            friendsCountTextView.text = getString(R.string.friends_count, count)
+        })
+        mainActivityViewModel.subscriptionCount.observe(this, Observer { count ->
+            val subscriptionsCountTextView = headerView.findViewById<TextView>(R.id.pending_request_count)
+            subscriptionsCountTextView.text = getString(R.string.pending_request_count, count)
+        })
         logAllSharedPreferences(this)
     }
 
